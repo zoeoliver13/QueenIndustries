@@ -167,15 +167,15 @@ public class Company {
      */
     public void testInvalidOperations() {
         Director director1 = this.getDirector("Marketing");
+        Director director2 = this.getDirector("Sales");
         Manager manager1 = (Manager) this.getEmployee("Sara Lance");
+        Manager manager2 = (Manager) this.getEmployee("Ricardo Diaz");
 
         try {
             director1.fire(manager1);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        Director director2 = this.getDirector("Sales");
 
         try {
             director1.fire(director2);
@@ -184,19 +184,17 @@ public class Company {
         }
 
         try {
-            Director director3 = new Director(100000, 0, 0, "Invalid Hire", "Human Resources", "Director of Human Resources", new ArrayList<>(), Company.DIRECTOR);
-            manager1.hire(director3);
+            Director director = new Director(100000, 0, 0, "Invalid Hire", "Human Resources", "Director of Human Resources", new ArrayList<>(), Company.DIRECTOR);
+            manager1.hire(director);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
         try {
-            Director director3 = new Director(100000, 0, 0, "Invalid Hire", "Human Resources", "Director of Human Resources", new ArrayList<>(Arrays.asList(new Employee[] { director1, director2 })), Company.DIRECTOR);
+            Director director = new Director(100000, 0, 0, "Invalid Hire", "Human Resources", "Director of Human Resources", new ArrayList<>(Arrays.asList(new Employee[] { director1, director2 })), Company.DIRECTOR);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        Manager manager2 = (Manager) this.getEmployee("Ricardo Diaz");
 
         try {
             director1.adjustSalary(10000, manager2);
