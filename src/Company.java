@@ -310,7 +310,7 @@ public class Company {
         List<Employee> tempStaff = new ArrayList<>();
         int size = staff.size();
         Employee first;
-        for (int x = 0; x < size; x++) {
+        for (int i = 0; i < size; i++) {
             first = staff.get(0);
             for (Employee director : staff) {
                 if (director.getDepartment().compareTo(first.getDepartment()) < 0) first = director;
