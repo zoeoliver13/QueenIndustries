@@ -222,4 +222,102 @@ public class Company {
         company.adjustSalaries();
         company.testInvalidOperations();
     }
+
+    private void printOrganizationChart()
+    {
+        System.out.println();
+        if (staff.size() > 0)
+        {
+            System.out.println("Queen Industries Organization Chart");
+            sortStaff();
+            for (Employee director : staff) {
+                System.out.println(" - " + director.getName() + ", " + director.getTitle());
+                for (Employee manager: ((Director) director).getManagers()) {
+                    if (manager.getTier() <= 1) {
+                        System.out.println("   - " + manager.getName() + ", " + manager.getTitle());
+                    } else {
+                        System.out.println("   - " + manager.getName() + ", " + manager.getTitle());
+                        for (Employee employee : ((Manager) manager).getEmployees()) {
+                            System.out.println("     - " + employee.getName() + ", " + employee.getTitle());
+                        }
+                    }
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    private Director getDirector(String department)
+    {
+        for (Employee employee : staff)
+        {
+            if (employee.getDepartment().equals(department))
+            {
+                return (Director) employee;
+            }
+        }
+        return null;
+    }
+
+    private Employee getEmployee(String name)
+    {
+        for (Employee director : staff)
+        {
+            Director director1 = (Director) director;
+            for (Employee manager: director1.getManagers())
+            {
+                if (manager.getName().equals(name)) return manager;
+                Manager manager1 = (Manager) manager;
+                for (Employee employee: manager1.getEmployees())
+                {
+                    if (employee.getName().equals(name)) return employee;
+                }
+            }
+        }
+        return null;
+    }
+
+    private void printEmployeeDetails(Director director)
+    {
+        System.out.println("Employee     : " + director.getName());
+        System.out.println("Department   : " + director.getDepartment());
+        System.out.println("Title        : " + director.getTitle());
+        System.out.println("Compensation : " + ((double) director.getSalary() + director.getBonus() + director.getStock()));
+        System.out.println();
+    }
+
+    private void printEmployeeDetails(Manager manager)
+    {
+        System.out.println("Employee     : " + manager.getName());
+        System.out.println("Department   : " + manager.getDepartment());
+        System.out.println("Title        : " + manager.getTitle());
+        System.out.println("Compensation : " + ((double) manager.getSalary() + manager.getBonus()));
+        System.out.println();
+    }
+
+    private void printEmployeeDetails(Employee employee)
+    {
+        System.out.println("Employee     : " + employee.getName());
+        System.out.println("Department   : " + employee.getDepartment());
+        System.out.println("Title        : " + employee.getTitle());
+        System.out.println("Compensation : " + ((double) employee.getSalary()));
+        System.out.println();
+    }
+
+
+    public void sortStaff()
+    {
+        List<Employee> tempStaff = new ArrayList<>();
+        int size = staff.size();
+        Employee first;
+        for (int x = 0; x < size; x++) {
+            first = staff.get(0);
+            for (Employee director : staff) {
+                if (director.getDepartment().compareTo(first.getDepartment()) < 0) first = director;
+            }
+            tempStaff.add(staff.get(staff.indexOf(first)));
+            staff.remove(first);
+        }
+        staff = tempStaff;
+    }
 }
